@@ -1,6 +1,6 @@
 /* 自定义滚动条样式：iframe 内页面使用（跨浏览器规则） */
 /* Firefox 支持 */
-@supports (scrollbar-color: #7a4cff rgba(255, 255, 255, 0.02)) {
+@supports (scrollbar-color: #4c7fff rgba(255, 255, 255, 0.02)) {
 
     html,
     body,
@@ -9,7 +9,7 @@
     pre {
         scrollbar-width: thin;
         /* auto | thin | none */
-        scrollbar-color: #7a4cff rgba(255, 255, 255, 0.02);
+        scrollbar-color: #4c88ff rgba(255, 255, 255, 0.02);
     }
 }
 
@@ -24,15 +24,15 @@ pre::-webkit-scrollbar {
 }
 
 /* 备用：确保颜色属性也设置在 body 上以兼容部分浏览器 */
-@supports (scrollbar-color: #7a4cff rgba(255, 255, 255, 0.02)) {
+@supports (scrollbar-color: #4c8bff rgba(255, 255, 255, 0.02)) {
     body {
-        scrollbar-color: #7a4cff rgba(255, 255, 255, 0.02);
+        scrollbar-color: #4c76ff rgba(255, 255, 255, 0.02);
     }
 }
 
 /* 备用：确保颜色属性也设置在 body 上以兼容部分浏览器 */
 body {
-    scrollbar-color: #7a4cff rgba(255, 255, 255, 0.02);
+    scrollbar-color: #4ca0ff rgba(255, 255, 255, 0.02);
 }
 
 /* 让表单与右侧上传栏并列 */

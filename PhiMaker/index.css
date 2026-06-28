@@ -1,67 +1,62 @@
 :root {
-    /* 颜色变量：深色背景 + 紫色强调 */
-    --bg-color: #0b0f1a;
-    /* 页面主背景 */
-    --main-c: #332663;
-    /* 顶部条背景（深紫） */
-    --accent: #986cff;
-    /* 强调色 */
-    --text: #e6e9ff;
-    /* 主文字色 */
-    --muted: #bfbff3;
-    /* 次要文字 */
+    /* 主题变量 */
+    --bg-color: #3d4d8768;
+    --main-c: #406eb3;
+    --accent: #7195d8;
+    --text: #ffffff;
+    --muted: #d4d4d4;
+
+    /* 顶部栏高度变量 */
+    --top-height: 32px;
 }
 
+html,
+body {
+    height: 100%;
+    min-height: 100%;
+}
 
 body {
+    margin: 0;
     background-color: var(--bg-color);
     color: var(--text);
     font-family: "微软雅黑", Arial, "Microsoft Yahei", sans-serif;
-    margin: 0px;
+    display: flex;
+    flex-direction: column;
 }
 
-/*-------------top menu------------------*/
-/* 顶部菜单：限定到 .top-menu，避免影响页面中其它的 ul 元素 */
+.infotext{
+    font-size: 13px;
+    color: #c1c4c8;
+     text-align: right;
+}
+/* 顶部菜单 -------------------------------------------------- */
 .top-menu {
     display: flex;
-    /* 水平排列子项（logo + 菜单按钮） */
-    gap: 8px;
-    /* 菜单项间距 */
+    gap: 2px;
     margin: 0;
     padding: 1px 12px;
-    /* 顶部内边距 */
     align-items: center;
-    /* 垂直居中 */
     background-color: var(--main-c);
-    box-shadow: 0px 0px 7px rgba(97, 97, 97, 0.452);
-    z-index: 1000000;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0);
+    z-index: 1000;
+    height: var(--top-height);
 }
 
 .menu-button {
-    /* 将 li（.menu-button）作为弹性容器，方便子元素垂直居中 */
     display: flex;
     align-items: center;
-    /* 垂直居中 */
     justify-content: center;
-    /* 水平居中（主轴方向居中） */
     position: relative;
-    /* 为下拉面板提供包含块（定位上下文） */
-    /*background-color: #99CCFF;*/
-    border-radius: 4px;
+    border-radius: 1px;
     border: none;
     list-style: none;
-    /* 取消不必要的 max-width，避免子元素被截断 */
     max-width: none;
-    padding: 0 0px;
-}
-
-.menu-button-f:focus {
-    outline: 2px solid rgba(152, 108, 255, 0.35);
+    padding: 0;
 }
 
 .menu-button-f {
     background: transparent;
-    /* 透明按钮，靠 hover/active 提示 */
     border-radius: 4px;
     border: none;
     color: var(--text);
@@ -72,71 +67,36 @@ body {
 }
 
 .menu-button-f:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-color);
 }
 
-/*
-.icon {
-    width: 30px;
-    height: 30px;
-    padding: 1px;
-    border-radius: 20px;
-}
-*/
-/* content 布局：主内容（flex）和右侧菜单 */
-.content {
-    /* 使用 CSS Grid 布局：左侧为主区/下方菜单，右侧为侧栏 */
-    display: grid;
-    grid-template-columns: 1fr 300px; /* 左列自适应，右列固定 300px（与 .rightmenu 保持一致） */
-    grid-template-rows: 1fr auto;   /* 上行为主窗口，下行为下侧菜单高度自适应 */
-    grid-template-areas: "main right" "menu right";
-    align-items: stretch;
-    gap: 0;
+.menu-button-f:focus {
+    outline: 1px solid rgba(0, 0, 0, 0.082);
 }
 
-.down {
-    /* 基本占位：实际位置由 grid-area 或 flex 决定 */
-    float: none;
-}
-
+/* 下拉菜单 -------------------------------------------------- */
 .menu-botton-down-c {
-    /* 下拉面板：默认隐藏（不可见、不可交互），使用透明度/变换过渡以获得动画 */
     display: flex;
-    /* 保持 flex 布局，配合 opacity/visibility 控制显示 */
     position: absolute;
-    /* 绝对定位，使面板浮在按钮下方 */
-    left: 50%;
-    transform: translateX(-50%) translateY(-6px);
-    /* 初始上移，便于过渡动画 */
-    min-width: 140px;
-    /* 保持合理宽度 */
+    left: 60%;
+    top: calc(100% + 0px);
+    transform: translateX(-50%) translateY(-30px);
+    min-width: 180px;
     flex-direction: column;
-    /* 垂直堆叠下拉项 */
-    top: calc(100% + 2px);
-    /* 位于菜单按钮下方（留 6px 间隙） */
-    align-items: center;
-    /* 水平居中 */
-    justify-content: center;
-    /* 垂直居中（如果容器有高度） */
-    gap: 4px;
-    /* 下拉项之间的间距 */
-    padding: 6px 8px;
-    /* 内边距，避免靠边 */
+    gap: 2px;
+    padding: 4px 4px;
     box-sizing: border-box;
-    background-color: rgba(40, 40, 61, 0.96);
-    /* 半透明暗色背景，和主题协调 */
+    background-color: #3a425e;
     color: var(--text);
     border-radius: 6px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
-    z-index: 10000;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
-    z-index: 100;
+    z-index: 10;
 }
 
-/* 基于类或悬停显示下拉（JS 会添加 .open） */
 .menu-button.open .menu-botton-down-c,
 .menu-button:hover .menu-botton-down-c,
 .menu-button:focus-within .menu-botton-down-c {
@@ -146,74 +106,46 @@ body {
     transform: translateX(-50%) translateY(0);
 }
 
-/* 下拉内按钮样式（可覆盖默认 button） */
 .menu-botton-down-c .menu-button-c {
     background: transparent;
     color: var(--text);
     border: none;
-    padding: 6px 10px;
+    padding: 4px 8px;
     width: 100%;
-    text-align: center;
+    text-align: left;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .menu-botton-down-c .menu-button-c:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.1);
 }
 
-/*
-    右侧菜单与主窗口区域样式
-    控制右侧菜单和主内容区的布局与外观
-*/
-
-.rightmenu {
-    background-color: rgb(130, 77, 141);
-    grid-area: right;
-    /* 在 grid 中使用固定宽度列（由 .content 的模板列决定） */
-    overflow: auto;
-}
-
-.mainwindow {
-    background-color: #1e293b;
-    grid-area: main;
-    box-sizing: border-box;
-    padding: 12px;
-    overflow: auto;
-}
-
-/* 全屏与响应式适配 -------------------------------------------------- */
-html,
-body {
-    height: 100%;
-    min-height: 100%;
-}
-
-/* 把 body 做成列方向的 flex 容器：顶部固定，内容填满余下高度 */
-body {
-    display: flex;
-    flex-direction: column;
-}
-
-/* 顶部栏高度变量，便于调整 */
-:root {
-    --top-height: 32px;
-}
-
-.top-menu {
-    height: var(--top-height);
-}
-
-/* 让 content 占据剩余高度并处理内部溢出 */
+/* 主布局 -------------------------------------------------- */
 .content {
-    /* 保证 content 占据可用高度（由 body 的 flex 布局控制） */
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: 1fr auto;
+    grid-template-areas: "main right" "menu right";
+    align-items: stretch;
+    gap: 0;
     flex: 1 1 auto;
     overflow: hidden;
 }
 
 .mainwindow {
-    /* 已由 grid-area 管理，这里声明最小宽度和滚动行为 */
+    grid-area: main;
+    background-color: #414861;
+    box-sizing: border-box;
+    padding: 12px;
     min-width: 0;
+    overflow: auto;
+}
+
+.rightmenu {
+    grid-area: right;
+    min-width: 300px;
+    background-color: #4c567a;
     overflow: auto;
 }
 
@@ -224,39 +156,37 @@ body {
     overflow: auto;
 }
 
-.rightmenu {
-    /* 右侧宽度由 grid 列宽决定；保持滚动 */
-    min-width: 300px;
-    overflow: auto;
+.down {
+    float: none;
 }
 
-/* 让 iframe 或主区子元素占满高度（如果存在 iframe） */
+/* 内容区填充 -------------------------------------------------- */
 .mainwindow iframe,
-.mainwindow>* {
+.mainwindow > * {
     width: 100%;
     height: 100%;
 }
 
-/* 让右侧与下侧的 iframe/子元素在各自容器内占满宽度/高度 */
-.rightmenu iframe, .rightmenu > * {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-.menu iframe, .menu > * {
+.rightmenu iframe,
+.rightmenu > *,
+.menu iframe,
+.menu > * {
     width: 100%;
     height: 100%;
     display: block;
 }
 
-/* 响应式：窄屏时把侧栏放到主内容下面，垂直排列 */
-@media (max-width: 880px) {
+/* 响应式 -------------------------------------------------- */
+@media (max-width: 700px) {
     :root {
         --top-height: 64px;
     }
 
+    .top-menu {
+        padding: 10px 14px;
+    }
+
     .content {
-        /* 在窄屏设备上改为垂直堆叠：主区 -> 下侧菜单 -> 侧栏 */
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
         grid-template-areas: "main" "menu" "right";
@@ -272,14 +202,8 @@ body {
         height: auto;
         min-height: 300px;
     }
-
-    /* 顶部菜单在移动端内边距更大以便触控 */
-    .top-menu {
-        padding: 10px 14px;
-    }
 }
 
-/* 更小屏幕：进一步压缩侧边或隐藏（可选） */
 @media (max-width: 480px) {
     .rightmenu {
         display: none;
@@ -287,13 +211,15 @@ body {
     }
 }
 
-.modal-backdrop.hidden { display: none; }
+/* 模态弹窗 -------------------------------------------------- */
+.modal-backdrop.hidden {
+    display: none;
+}
 
-/* 模态遮罩：覆盖全屏并居中内部内容 */
 .modal-backdrop {
     position: fixed;
-    inset: 0; /* top:0; right:0; bottom:0; left:0 */
-    background: rgba(0,0,0,0.45);
+    inset: 0;
+    background: #4d577c;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -306,9 +232,9 @@ body {
     height: 80vh;
     max-width: 1200px;
     max-height: 900px;
-    background: #0b0f14;
+    background: #4d5880;
     border-radius: 8px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.432), 0 2px 8px rgba(0, 0, 0, 0.5);
     overflow: hidden;
 }
 
@@ -333,8 +259,16 @@ body {
 }
 
 @media (max-width: 880px) {
-    .modal-content { width: 94vw; height: 86vh; max-width: none; max-height: none; border-radius: 6px; }
+    .modal-content {
+        width: 94vw;
+        height: 86vh;
+        max-width: none;
+        max-height: none;
+        border-radius: 6px;
+    }
 }
-.mainwindow{
-    padding:1px
+
+/* 最后修正 */
+.mainwindow {
+    padding: 0px;
 }

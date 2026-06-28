@@ -4,19 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PhiMaker 铺面编辑器</title>
-    <!-- 关键词，用于SEO优化 -->
+    <title>PhiMaker|铺面编辑器</title>
     <meta name="keywords" content="PhiMaker,phigros,phira,PM">
-    <!-- 页面描述信息 -->
+    <!-- 页面描述 -->
     <meta name="description" content="phira自制谱制作">
-    <!-- 作者信息 -->
     <meta name="author" content="Akua">
     <!-- 引入样式表 -->
     <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="scrollbar.css">
-    <!-- 引入主JS脚本 -->
     <script src="index.js"></script>
-    <script src="Strange.js"></script>
 </head>
 
 <body>
@@ -44,6 +40,8 @@
                 <div class="menu-botton-down-c" id="menu-file" role="menu" aria-hidden="true">
                     <button id="btn-new-project" class="menu-button-c" type="button">新建</button>
                     <button class="menu-button-c" type="button">打开工作文件</button>
+                    <button class="menu-button-c" type="button">保存</button>
+                    <button class="menu-button-c" type="button">另存为</button>
                     <button class="menu-button-c" type="button">导入素材</button>
                     <button class="menu-button-c" type="button">导出</button>
                     <button class="menu-button-c" type="button">退出</button>
@@ -54,8 +52,8 @@
                 <button class="menu-button-f" id="menu-edit-button" aria-haspopup="true" aria-expanded="false"
                     aria-controls="menu-edit" type="button">编辑</button>
                 <div class="menu-botton-down-c" id="menu-edit" role="menu" aria-hidden="true">
-                    <button class="menu-button-c" type="button">撤销</button>
-                    <button class="menu-button-c" type="button">重做</button>
+                    <button class="menu-button-c" type="button">撤销<a class="infotext">(Ctrl+Z)</a></button>
+                    <button class="menu-button-c" type="button">重做<a class="infotext">(Ctrl+Y)</a></button>
                 </div>
             </li>
 
@@ -93,23 +91,16 @@
         <!-- 主窗口区域，左侧主内容 -->
         <div class="mainwindow">
             <!-- 主内容区：可放 iframe 或编辑画布 -->
-            <iframe  id="main-iframe" src="Edit window\edit.html" title="Main window" frameborder="0"></iframe>
+            <iframe  id="main-iframe" src="" title="Main window" frameborder="0"></iframe>
         </div>
 
         <!-- 右侧菜单区域 -->
         <div class="down rightmenu">
-            <iframe id="sub-iframe" src="Sub window\sub.html" title="Sub window" frameborder="0"></iframe>
+            <iframe id="sub-iframe" src="" title="Sub window" frameborder="0"></iframe>
 
         </div>
         <div class="down menu">
-            <iframe id="down-iframe" src="Down window\down.html" title="Down window" frameborder="0"></iframe>
-        </div>
-    </div>
-    <!-- 模态层：用于在页面中央显示 create.html -->
-    <div id="create-modal" class="modal-backdrop hidden" role="dialog" aria-hidden="true" aria-label="新建项目">
-        <div class="modal-content" role="document">
-            <button id="create-modal-close" class="modal-close" aria-label="关闭">✕</button>
-            <iframe id="create-iframe" src="about:blank" title="Create New Project" frameborder="0"></iframe>
+            <iframe id="down-iframe" src="" title="Down window" frameborder="0"></iframe>
         </div>
     </div>
 </body>
