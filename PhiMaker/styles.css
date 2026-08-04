@@ -13,8 +13,8 @@ body{
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 16px; /* 增大元素间距 */
-    font-size: 16px; /* 整体放大文字 */
+    gap: 5px; /* 增大元素间距 */
+    font-size: 12px; /* 整体放大文字 */
 }
 label {
     font-size: 15px;
@@ -26,28 +26,29 @@ input[type="text"], input[type="number"], select, textarea {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    padding: 14px 16px; /* 更高更宽的输入框 */
+    padding: 2px 5px; /* 更高更宽的输入框 */
     border-radius: 10px;
     border: 1px solid rgba(255,255,255,0.06);
     background: rgba(255,255,255,0.015); /* 更贴合父页面的深色风格 */
     color: var(--text);
     box-sizing: border-box;
-    font-size: 16px;
-    min-height: 48px;
+    font-size: 14px;
+    min-height: 40px;
+    margin-left: 5px;
 }
 textarea { min-height: 120px; resize: vertical; }
 button[type="submit"] {
-    background: linear-gradient(180deg, var(--accent), #7a4cff);
+    background: linear-gradient(180deg, var(--accent), #203e80);
     color: #ffffff;
     border: none;
     padding: 12px 18px;
     border-radius: 10px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 8px 22px rgba(0,0,0,0.55);
     align-self: flex-end; /* 将按钮放到右侧 */
     min-width: 160px;
     font-size: 15px;
+    margin-top: 12px;
 }
 button[type="submit"]:hover {
     transform: translateY(-1px);

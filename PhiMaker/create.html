@@ -19,28 +19,28 @@
         <form id="create-project-form">
             <!-- 链接到项目名输入框 -->
             <label for="project-name">铺面名称:</label>
-            <input type="text" id="project-name" name="project-name" required placeholder="例如：MyMap" aria-label="铺面名称">
+            <input type="text" id="project-name" name="project-name" required placeholder="例如：咕咕嘎嘎" aria-label="铺面名称">
 
             <!-- 难度：显示为数字输入框 + 滑条（互相同步） -->
             <label for="project-difficulty-number">难度 (数值):</label>
             <div class="number-range-row">
                 <!-- 数字框（可直接输入精确数值） -->
                 <input type="number" step="0.1" id="project-difficulty-number" name="project-difficulty" min="0"
-                    max="20" value="8" title="请输入铺面难度（数字，0-20）" placeholder="0-20" aria-label="铺面难度数字">
+                    max="20" value="8" title="请输入铺面难度（数字，0-30）" placeholder="0-30" aria-label="铺面难度数字">
                 <!-- 滑条：用于快速调整难度 -->
-                <input type="range" step="0.1" id="project-difficulty-range" min="0" max="20" value="8"
+                <input type="range" step="0.1" id="project-difficulty-range" min="0" max="30" value="8"
                     aria-label="铺面难度滑条">
             </div>
 
             <!-- 难度等级（文本） -->
             <label for="project-diffculty-level">难度等级:</label>
-            <input type="text" id="project-diffculty-level" name="project-difficulty-level" required
-                title="请输入铺面难度等级（如 Easy / Normal / Hard 等）" placeholder="就是铺子右下角那个" aria-label="铺面难度等级">
+            <input type="text" id="project-diffculty-level" name="project-difficulty-level" required title="铺面难度"
+                placeholder="就是铺子右下角那个" aria-label="铺面难度等级">
 
             <!-- 作者信息（文本输入） -->
             <label for="project-author">作者:</label>
             <input type="text" id="project-author" value="UK" title="默认为 'UK'" name="project-author"
-                placeholder="你自己, 默认为 'UK'" required aria-label="作者">
+                placeholder="作者名, 默认为 'UK'" required aria-label="作者">
 
             <!-- 音乐作者 -->
             <label for="project-music-author">音乐作者:</label>
@@ -54,8 +54,8 @@
 
             <!-- tip 文本 -->
             <label for="project-tip">Tip:</label>
-            <input type="text" id="project-tip" value='' placeholder="Tip: 不写的话会给你塞一条别的" name="project-tip" required
-                aria-label="提示">
+            <input type="text" id="project-tip" value='' placeholder="Tip: 不写的话phira会给你塞一条别的" name="project-tip"
+                required aria-label="提示">
 
             <!-- 提交按钮：右对齐（由 CSS 控制） -->
             <button type="submit" id="create-submit">Create Project</button>
@@ -63,31 +63,17 @@
 
         <!-- 右侧上传面板（音乐与图片） -->
         <aside class="side-panel" aria-label="上传素材">
-            <h3>上传素材</h3>
-            <div class="file-input-row">
-                <div  class="file-in">
-                    <label for="map-music">铺面音乐（必选，mp3/ogg/wav）</label>
-                    <p>tip:mp3格式可能会带来不可预见的延迟，wav的文件占用空间较大，可能会导致上传失败，<im>推荐使用ogg格式</im>
-                    </p>
-                    <input type="file" id="map-music" name="map-music" accept=".ogg,.wav,.mp3,audio/ogg,audio/wav,audio/mpeg" class="upload" required>
-                    <div class="file-meta">
-                        <span class="file-name" id="map-music-name">选择音乐文件</span>
-                        <button type="button" class="clear-btn" data-target="map-music" aria-label="清除音乐选择">×</button>
-                    </div>
-                    <div class="file-preview" id="map-music-preview" aria-hidden="true"></div>
+                <div class="music-input">
+                    <h3>上传音乐</h3>
+                    <p>                                                                                                                                       </p>
                 </div>
-                <div class="file-in">
-                    <label for="map-image">铺面图片（必选，png/jpg）</label>
-
-                    <input type="file" id="map-image" name="map-image" accept="image/*" class="upload" required>
-                    <div class="file-meta">
-                        <span class="file-name" id="map-image-name">选择图片文件</span>
-                        <button type="button" class="clear-btn" data-target="map-image" aria-label="清除图片选择">×</button>
-                    </div>
-                    <div class="file-preview" id="map-image-preview" aria-hidden="true"></div>
+                
+                <div class="image-input">
+                    
                 </div>
-            </div>
-        </aside>
+            </aside>
+    </div>
+    </aside>
     </div>
 
     <!-- 页面脚本：同步滑条与数字，并处理表单提交 -->
@@ -189,7 +175,7 @@
                 let v = parseFloat(e.target.value);
                 if (isNaN(v)) v = 0;
                 const min = parseFloat(rangeInput.min) || 0;
-                const max = parseFloat(rangeInput.max) || 100;
+                const max = parseFloat(rangeInput.max) || 50;
                 const step = parseFloat(rangeInput.step) || 1;
                 v = clamp(v, min, max);
                 // 规范小数位
