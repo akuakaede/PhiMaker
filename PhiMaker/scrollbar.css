@@ -1,6 +1,10 @@
 /* 自定义滚动条样式：iframe 内页面使用（跨浏览器规则） */
 /* Firefox 支持 */
+<<<<<<< HEAD
 @supports (scrollbar-color: #5f97ff rgba(255, 255, 255, 0.02)) {
+=======
+@supports (scrollbar-color: #4c7fff rgba(255, 255, 255, 0.02)) {
+>>>>>>> 6a2813c7e8d5f387458294d1ba497b96af22f17a
 
     html,
     body,
@@ -9,7 +13,11 @@
     pre {
         scrollbar-width: thin;
         /* auto | thin | none */
+<<<<<<< HEAD
         scrollbar-color: #4c9aff rgba(4, 10, 44, 0.02);
+=======
+        scrollbar-color: #4c88ff rgba(255, 255, 255, 0.02);
+>>>>>>> 6a2813c7e8d5f387458294d1ba497b96af22f17a
     }
 }
 
@@ -24,15 +32,25 @@ pre::-webkit-scrollbar {
 }
 
 /* 备用：确保颜色属性也设置在 body 上以兼容部分浏览器 */
+<<<<<<< HEAD
 @supports (scrollbar-color: #4c6dff rgba(255, 255, 255, 0.02)) {
     body {
         scrollbar-color: #4c4fff rgba(255, 255, 255, 0.02);
+=======
+@supports (scrollbar-color: #4c8bff rgba(255, 255, 255, 0.02)) {
+    body {
+        scrollbar-color: #4c76ff rgba(255, 255, 255, 0.02);
+>>>>>>> 6a2813c7e8d5f387458294d1ba497b96af22f17a
     }
 }
 
 /* 备用：确保颜色属性也设置在 body 上以兼容部分浏览器 */
 body {
+<<<<<<< HEAD
     scrollbar-color: #4c85ff rgba(255, 255, 255, 0.02);
+=======
+    scrollbar-color: #4ca0ff rgba(255, 255, 255, 0.02);
+>>>>>>> 6a2813c7e8d5f387458294d1ba497b96af22f17a
 }
 
 /* 让表单与右侧上传栏并列 */

@@ -1,0 +1,11 @@
+Palette ID: royal-indigo-night
+
+Colors:
+maincolor
+Palette ID: sapphire-blue-shine
+
+Colors:
+#0F52BA
+#007FFF
+#1E90FF
+#4169E1
