@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 console.clear();
 console.log("index.js loaded");
 
@@ -164,5 +163,3 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 });
 console.clear();
-=======
->>>>>>> 6a2813c7e8d5f387458294d1ba497b96af22f17a
