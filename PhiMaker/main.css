@@ -1,0 +1,150 @@
+:root {
+    color-scheme: dark;
+    font-family: "微软雅黑", Arial, "Microsoft Yahei", sans-serif;
+    color: #f4f6ff;
+    background: #252d43;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 10% 0%, rgba(113, 149, 216, 0.16), transparent 48%),
+        #252d43;
+}
+
+.workspace {
+    width: min(100%, 1040px);
+    margin: 0 auto;
+    padding: clamp(24px, 5vw, 56px);
+}
+
+.workspace-header,
+.cache-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.eyebrow {
+    margin: 0 0 8px;
+    color: #9cb8f0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+
+h1,
+h2,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 8px;
+    font-size: clamp(25px, 4vw, 34px);
+}
+
+.intro,
+.status,
+.cache-authors,
+.cache-time {
+    color: #aeb8d0;
+}
+
+.intro {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.storage-badge,
+.cache-level {
+    flex: 0 0 auto;
+    padding: 7px 11px;
+    border: 1px solid rgba(157, 184, 240, 0.25);
+    border-radius: 999px;
+    color: #c9d8ff;
+    background: rgba(113, 149, 216, 0.1);
+    font-size: 12px;
+}
+
+.status {
+    margin: 32px 0 14px;
+    font-size: 13px;
+}
+
+.cache-list {
+    display: grid;
+    gap: 14px;
+}
+
+.cache-card {
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.cache-heading {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.cache-heading h2 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.cache-authors {
+    margin: 12px 0 16px;
+    font-size: 12px;
+}
+
+.cache-files {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cache-files li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: #e0e5f4;
+    font-size: 12px;
+}
+
+.cache-files li span:last-child {
+    overflow-wrap: anywhere;
+    color: #aeb8d0;
+    text-align: right;
+}
+
+.cache-time {
+    display: block;
+    margin-top: 16px;
+    font-size: 11px;
+}
+
+@media (max-width: 540px) {
+    .workspace-header {
+        align-items: flex-start;
+    }
+
+    .cache-files li {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .cache-files li span:last-child {
+        text-align: left;
+    }
+}

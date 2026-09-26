@@ -1,1 +1,25 @@
-<script src="main.js"></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhiMaker 本地铺面</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="localStrange.js"></script>
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <main class="workspace">
+        <header class="workspace-header">
+            <div>
+                <p class="eyebrow">PHIMAKER · LOCAL</p>
+                <h1>本地铺面缓存</h1>
+                <p class="intro">新建的铺面会保存在此浏览器中；上传文件不会离开你的设备。</p>
+            </div>
+            <span class="storage-badge">IndexedDB</span>
+        </header>
+        <p id="cache-status" class="status" role="status" aria-live="polite">正在读取本地缓存…</p>
+        <section id="cache-list" class="cache-list" aria-label="本地铺面列表"></section>
+    </main>
+</body>
+</html>
