@@ -137,29 +137,63 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
-	// 接收来自 iframe 的新建项目消息（通过 postMessage）
-	window.addEventListener('message', (ev) => {
-		if (!ev || !ev.data) return;
-		const msg = ev.data;
-		if (msg.type === 'create-project') {
-			const data = msg.payload || {};
-			// 简单校验
-			if (!data.name) {
-				console.warn('收到创建请求但缺少 name', data);
-				return;
+	// 接收新建表单：校验元数据和必需素材后写入 IndexedDB。
+	window.addEventListener('message', async (ev) => {
+		if (ev.origin !== window.location.origin || ev.source !== modalIframe.contentWindow ||
+			!ev.data || ev.data.type !== 'create-project') return;
+
+		const formWindow = modalIframe.contentWindow;
+		const reply = (type, message) => {
+			if (formWindow) formWindow.postMessage({ type, message }, window.location.origin);
+		};
+
+		try {
+			const data = ev.data.payload;
+			if (!data || typeof data !== 'object') throw new Error('缺少铺面信息。');
+			for (const [key, label] of [
+				['name', '铺面名称'],
+				['difficultyLevel', '难度等级'],
+				['author', '作者'],
+				['musicAuthor', '音乐作者'],
+				['pictureAuthor', '插图作者']
+			]) {
+				if (typeof data[key] !== 'string' || !data[key].trim()) {
+					throw new Error(`请填写${label}。`);
+				}
 			}
-			console.log('收到新建项目请求：', data.name, data);
-			// 关闭模态
-			if (typeof closeCreateModal === 'function') closeCreateModal();
+			if (!Number.isFinite(data.difficulty) || data.difficulty < 0 || data.difficulty > 30) {
+				throw new Error('难度数值须为 0 到 30 之间的数字。');
+			}
+			if (!data.files || typeof data.files !== 'object') throw new Error('请上传音乐、插图和谱图文件。');
+			for (const key of ['music', 'image', 'chart']) {
+				const file = data.files[key];
+				if (!file || typeof file.name !== 'string' || typeof file.slice !== 'function' || file.size === 0) {
+					throw new Error('音乐、插图和谱图文件均为必填项，且文件不能为空。');
+				}
+			}
+			if (!/\.(json|pec|pgr|pbc)$/i.test(data.files.chart.name)) {
+				throw new Error('谱图文件扩展名须为 .json、.pec、.pgr 或 .pbc。');
+			}
+			if (data.files.unlockVideo &&
+				(typeof data.files.unlockVideo.name !== 'string' || typeof data.files.unlockVideo.slice !== 'function')) {
+				throw new Error('解锁视频文件无效，请重新选择。');
+			}
+
+			const cache = await window.LocalStrange.createChartCache(data);
+			const mainFrame = document.getElementById('main-iframe');
+			if (mainFrame.contentWindow) {
+				mainFrame.contentWindow.postMessage(
+					{ type: 'chart-cache-updated', cacheId: cache.id },
+					window.location.origin
+				);
+			}
+			reply('create-project-saved', cache.id);
+			closeCreateModal();
+		} catch (error) {
+			const message = error instanceof Error ? error.message : '本地缓存创建失败。';
+			console.error('保存铺面缓存失败：', error);
+			reply('create-project-error', message);
 		}
 	});
-
-	// 简单逃逸函数，用于插入到 DOM（避免 XSS）
-	function escapeHtml(s) {
-		if (!s) return '';
-		return String(s).replace(/[&<>"]/g, function(c){
-			return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
-		});
-	}
 });
 console.clear();

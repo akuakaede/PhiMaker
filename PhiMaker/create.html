@@ -25,8 +25,8 @@
             <label for="project-difficulty-number">难度 (数值):</label>
             <div class="number-range-row">
                 <!-- 数字框（可直接输入精确数值） -->
-                <input type="number" step="0.1" id="project-difficulty-number" name="project-difficulty" min="0"
-                    max="20" value="8" title="请输入铺面难度（数字，0-30）" placeholder="0-30" aria-label="铺面难度数字">
+                    <input type="number" step="0.1" id="project-difficulty-number" name="project-difficulty" min="0"
+                        max="30" value="8" required title="请输入铺面难度（数字，0-30）" placeholder="0-30" aria-label="铺面难度数字">
                 <!-- 滑条：用于快速调整难度 -->
                 <input type="range" step="0.1" id="project-difficulty-range" min="0" max="30" value="8"
                     aria-label="铺面难度滑条">
@@ -34,7 +34,7 @@
 
             <!-- 难度等级（文本） -->
             <label for="project-diffculty-level">难度等级:</label>
-            <input type="text" id="project-diffculty-level" name="project-difficulty-level" required title="铺面难度"
+            <input type="text" id="project-difficulty-level" name="project-difficulty-level" required title="铺面难度"
                 placeholder="就是铺子右下角那个" aria-label="铺面难度等级">
 
             <!-- 作者信息（文本输入） -->
@@ -54,103 +54,93 @@
 
             <!-- tip 文本 -->
             <label for="project-tip">Tip:</label>
-            <input type="text" id="project-tip" value='' placeholder="Tip: 不写的话phira会给你塞一条别的" name="project-tip"
-                required aria-label="提示">
+            <input type="text" id="project-tip" value='' placeholder="可选；留空时 Phira 会自动提供提示" name="project-tip"
+                aria-label="提示">
 
             <!-- 提交按钮：右对齐（由 CSS 控制） -->
             <button type="submit" id="create-submit">Create Project</button>
         </form>
 
-        <!-- 右侧上传面板（音乐与图片） -->
+        <!-- 右侧上传面板 -->
         <aside class="side-panel" aria-label="上传素材">
+            <div class="file-input-row">
                 <div class="music-input">
-                    <h3>上传音乐</h3>
-                    <p>                                                                                                                                       </p>
+                    <label for="map-music">音乐文件（必填）</label>
+                    <input id="map-music" name="music" type="file" accept="audio/*" required form="create-project-form">
+                    <div class="file-meta"><span id="map-music-name" class="file-name">选择音乐文件</span></div>
+                    <div id="map-music-preview" class="file-preview" aria-hidden="true"></div>
                 </div>
-                
                 <div class="image-input">
-                    
+                    <label for="map-image">铺面插图（必填）</label>
+                    <input id="map-image" name="illustration" type="file" accept="image/*" required form="create-project-form">
+                    <div class="file-meta"><span id="map-image-name" class="file-name">选择图片文件</span></div>
+                    <div id="map-image-preview" class="file-preview" aria-hidden="true"></div>
                 </div>
-            </aside>
+            </div>
+            <div class="file-input-row">
+                <div class="chart-input">
+                    <label for="map-chart">谱图文件（必填）</label>
+                    <input id="map-chart" name="chart" type="file" accept=".json,.pec,.pgr,.pbc" required form="create-project-form">
+                    <div class="file-meta"><span id="map-chart-name" class="file-name">选择谱图文件</span></div>
+                </div>
+                <div class="video-input">
+                    <label for="map-unlock-video">解锁视频（可选）</label>
+                    <input id="map-unlock-video" name="unlockVideo" type="file" accept="video/*" form="create-project-form">
+                    <div class="file-meta"><span id="map-unlock-video-name" class="file-name">未选择视频</span></div>
+                </div>
+            </div>
+            <p>支持 Phira 可识别的谱图文件；格式由内容推断。</p>
+        </aside>
     </div>
-    </aside>
-    </div>
+    <p id="create-status" role="status" aria-live="polite"></p>
 
     <!-- 页面脚本：同步滑条与数字，并处理表单提交 -->
     <script>
-        // 表单提交：读取文本字段与可选的文件（图片/音频），通过 postMessage 发送给父窗口
+        // 将原始 File 对象传给父页面，避免把大文件编码成体积更大的 data URL。
         document.getElementById('create-project-form').addEventListener('submit', function (event) {
             event.preventDefault();
             const formEl = document.getElementById('create-project-form');
-            // 当 JS 拦截提交时，手动触发表单验证提示
-            if (formEl && !formEl.checkValidity()) {
+            if (!formEl.checkValidity()) {
                 formEl.reportValidity();
                 return;
             }
 
-            // 注意：页面布局中 file inputs 放在表单外（aside），因此它们不会被 form.checkValidity() 检测到。
-            // 在这里显式校验文件输入并触发原生提示（reportValidity）以告知用户。
-            const musicInp = document.getElementById('map-music');
-            const imageInp = document.getElementById('map-image');
-            if (musicInp && (!musicInp.files || musicInp.files.length === 0)) {
-                // 调用原生提示（如果浏览器支持）
-                if (typeof musicInp.reportValidity === 'function') {
-                    musicInp.reportValidity();
-                } else {
-                    alert('请上传音乐文件（必填）');
-                }
-                return;
-            }
-            if (imageInp && (!imageInp.files || imageInp.files.length === 0)) {
-                if (typeof imageInp.reportValidity === 'function') {
-                    imageInp.reportValidity();
-                } else {
-                    alert('请上传铺面图片（必填）');
-                }
-                return;
-            }
-
-            const getVal = id => document.getElementById(id) ? document.getElementById(id).value : '';
+            const getVal = id => document.getElementById(id).value.trim();
             const payload = {
                 name: getVal('project-name'),
-                difficulty: parseFloat(getVal('project-difficulty-number')) || 0,
-                difficultyLevel: getVal('project-diffculty-level'),
+                difficulty: Number(getVal('project-difficulty-number')),
+                difficultyLevel: getVal('project-difficulty-level'),
                 author: getVal('project-author'),
                 musicAuthor: getVal('project-music-author'),
                 pictureAuthor: getVal('project-picture-author'),
                 tip: getVal('project-tip'),
-                files: {}
+                files: {
+                    music: document.getElementById('map-music').files[0],
+                    image: document.getElementById('map-image').files[0],
+                    chart: document.getElementById('map-chart').files[0],
+                    unlockVideo: document.getElementById('map-unlock-video').files[0] || null
+                }
             };
 
-            // helper: 读取 file input 为 dataURL（如果有文件）
-            function readFileData(fileInputId) {
-                return new Promise((resolve) => {
-                    const inp = document.getElementById(fileInputId);
-                    if (!inp || !inp.files || inp.files.length === 0) return resolve(null);
-                    const file = inp.files[0];
-                    const reader = new FileReader();
-                    reader.onload = function (e) { resolve({ name: file.name, type: file.type, dataURL: e.target.result }); };
-                    reader.onerror = function () { resolve(null); };
-                    reader.readAsDataURL(file);
-                });
+            if (window.parent === window) {
+                document.getElementById('create-status').textContent = '无法连接主页面，请从 PhiMaker 中打开新建窗口。';
+                return;
             }
 
-            Promise.all([readFileData('map-music'), readFileData('map-image')]).then(([music, image]) => {
-                if (music) payload.files.music = music;
-                if (image) payload.files.image = image;
+            document.getElementById('create-status').textContent = '正在将铺面写入本地缓存…';
+            document.getElementById('create-submit').disabled = true;
+            window.parent.postMessage({ type: 'create-project', payload }, window.location.origin);
+        });
 
-                // 发送消息给父窗口（父页面负责校验 origin/权限）
-                if (window.parent && window.parent !== window) {
-                    window.parent.postMessage({ type: 'create-project', payload }, '*');
-                    // 可视反馈：替代 alert
-                    const status = document.createElement('div');
-                    status.textContent = '已发送新建请求';
-                    status.style.color = '#bfcfff';
-                    document.body.appendChild(status);
-                } else {
-                    alert('无法找到父窗口，新的项目数据:\n' + JSON.stringify(payload, null, 2));
-                }
-            });
+        window.addEventListener('message', function (event) {
+            if (event.origin !== window.location.origin || event.source !== window.parent || !event.data) return;
+            const status = document.getElementById('create-status');
+            if (event.data.type === 'create-project-saved') {
+                status.textContent = '铺面已保存到本机缓存。';
+            } else if (event.data.type === 'create-project-error') {
+                status.textContent = '保存失败：' + event.data.message;
+                document.getElementById('create-submit').disabled = false;
+            }
         });
 
         // 同步逻辑：数字输入与滑条互相同步（支持浮点 step）
@@ -271,6 +261,15 @@
 
             attachFilePreview('map-music', 'map-music-name', '选择音乐文件', 'map-music-preview');
             attachFilePreview('map-image', 'map-image-name', '选择图片文件', 'map-image-preview');
+
+            ['map-chart', 'map-unlock-video'].forEach(function (inputId) {
+                const input = document.getElementById(inputId);
+                const label = document.getElementById(inputId + '-name');
+                input.addEventListener('change', function () {
+                    label.textContent = input.files.length ? input.files[0].name : (inputId === 'map-chart' ? '选择谱图文件' : '未选择视频');
+                    label.title = input.files.length ? input.files[0].name : '';
+                });
+            });
         })();
     </script>
 </body>
